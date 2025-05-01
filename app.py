@@ -8,7 +8,7 @@ from tensorflow.keras.preprocessing.image import img_to_array
 import plotly.graph_objects as go
 import pandas as pd
 
-# Set page configuration
+# Set page configuration nnn
 st.set_page_config(
     page_title="Pneumonia Detection App",
     page_icon="🫁",
