@@ -42,7 +42,7 @@ The CNN model comprises:
 - **Loss Function**: Binary Cross-Entropy.
 - **Optimizer**: Adam.
 - **Metrics**: Accuracy, Precision, Recall.
-- **Epochs**: 10.
+- **Epochs**: 30.
 - **Batch Size**: 32.
 - **Data Augmentation**: Applied to enhance model generalization.
 
