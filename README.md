@@ -91,7 +91,7 @@ streamlit run app.py
    ```python
    import gdown
 
-   url = 'https://drive.google.com/uc?id=your_file_id'
+   url = 'https://drive.google.com/file/d/1jMGnwi2r8xaFFOEdz06ilfZDdIgbqn4q/view?usp=sharing'
    output = 'pneumonia_model_best.h5'
    gdown.download(url, output, quiet=False)
    ```
