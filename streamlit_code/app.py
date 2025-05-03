@@ -1,14 +1,52 @@
-
-
 import streamlit as st
 import numpy as np
+import os  # Added os import
 from PIL import Image
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 import plotly.graph_objects as go
 import pandas as pd
+import gdown
+import time
 
-# Set page configuration nnn
+MODEL_PATH = "pneumonia_detection_model.h5"
+MODEL_GDRIVE_URL = "https://drive.google.com/uc?id=1jMGnwi2r8xaFFOEdz06ilfZDdIgbqn4q"
+
+# Google Drive download helper
+def download_from_google_drive(gdrive_url: str, output_path: str):
+    if not os.path.exists(output_path):
+        try:
+            # Create a progress bar
+            progress_text = "Downloading model from Google Drive..."
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+            
+            # Download with progress updates
+            for i in range(101):
+                # Simulate download progress (since gdown doesn't provide real-time feedback easily)
+                status_text.text(f"{progress_text} {i}% Complete")
+                progress_bar.progress(i)
+                time.sleep(0.01)  # Faster progress bar
+                
+                # Actually download when we reach ~20%
+                if i == 20:
+                    gdown.download(gdrive_url, output_path, quiet=True)
+            
+            st.success("Download complete!")
+            # Remove progress indicators after completion
+            progress_bar.empty()
+            status_text.empty()
+            return True
+        except Exception as e:
+            st.error(f"Failed to download file: {e}")
+            return False
+    return True
+
+
+
+download_from_google_drive(MODEL_GDRIVE_URL, MODEL_PATH)
+
+# Set page configuration
 st.set_page_config(
     page_title="Pneumonia Detection App",
     page_icon="🫁",
@@ -72,7 +110,6 @@ st.markdown("""
 
 # Set constants
 IMG_WIDTH, IMG_HEIGHT = 224, 224  # as per model input
-MODEL_PATH = "pneumonia_model_best.h5"
 
 # Load model once
 @st.cache_resource
@@ -160,8 +197,8 @@ def main():
                     
                     # Make prediction
                     prediction = model.predict(img_array)[0][0]
-                    label = "Pneumonia" if prediction > 0.5 else "Normal"
-                    confidence = prediction if prediction > 0.5 else 1 - prediction
+                    label = "Pneumonia" if prediction > 0.8 else "Normal"
+                    confidence = prediction if prediction > 0.8 else 1 - prediction
                     
                     # Create gauge chart for visualization
                     fig = go.Figure(go.Indicator(
@@ -216,9 +253,9 @@ def main():
                 
                 col1, col2 = st.columns(2)
                 with col1:
-                    st.image("normal.jpg", caption="Example of Normal X-ray")
+                    st.image("images/normal.jpg", caption="Example of Normal X-ray")
                 with col2:
-                    st.image("pneumonia.jpg", caption="Example of Pneumonia X-ray")
+                    st.image("images/pneumonia.jpg", caption="Example of Pneumonia X-ray")
         
         elif page == "Project Information":
             st.markdown("## Pneumonia Detection Project")
@@ -367,7 +404,7 @@ def main():
         """)
         
         # Add explanation of model architecture
-        st.image("cnn_arch.png", caption="Simplified CNN Architecture for Pneumonia Detection")
+        st.image("images/cnn_arch.png", caption="Simplified CNN Architecture for Pneumonia Detection")
     
     # Dataset Information Tab
     with tabs[3]:
