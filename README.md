@@ -74,8 +74,7 @@ streamlit run app.py
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/yourusername/pneumonia-detection.git
-   cd pneumonia-detection
+   git clone https://github.com/Nikhilg27425/dsc_project.git
    ```
 
 2. **Install Dependencies**:
@@ -84,21 +83,10 @@ streamlit run app.py
    pip install -r requirements.txt
    ```
 
-3. **Download the Model**:
-
-   The trained model is hosted on Google Drive. Use the following code to download:
-
-   ```python
-   import gdown
-
-   url = 'https://drive.google.com/file/d/1jMGnwi2r8xaFFOEdz06ilfZDdIgbqn4q/view?usp=sharing'
-   output = 'pneumonia_model_best.h5'
-   gdown.download(url, output, quiet=False)
-   ```
-
-4. **Run the Application**:
+3. **Run the Application**:
 
    ```bash
+   cd streamlit_code
    streamlit run app.py
    ```
 
